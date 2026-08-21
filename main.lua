@@ -1,64 +1,38 @@
 return function(mod)
-  mod.log:info("Cargando modulo: Evoluciones por Nivel (Gen 2)")
+  mod.log:info(">>> Mod Evoluciones Autonomas Cargado Correctamente")
 
-  -- Poliwhirl -> Politoed al subir al nivel 37 (o usar Caramelo Raro)
-  -- Conserva Water Stone nativa para Poliwrath
-  mod.content.pokemon:patch("POLIWHIRL", {
-    evolutions = {
-      { item = "WATER_STONE", method = "ITEM",  species = "POLIWRATH" },
-      { level = 37,           method = "LEVEL", species = "POLITOED" },
-    },
-  })
-
-  -- Slowpoke -> Slowbro (37 original) y Slowking (38)
-  mod.content.pokemon:patch("SLOWPOKE", {
-    evolutions = {
-      { level = 37, method = "LEVEL", species = "SLOWBRO" },
-      { level = 38, method = "LEVEL", species = "SLOWKING" },
-    },
-  })
-
-  -- Onix -> Steelix (Nivel 40)
-  mod.content.pokemon:patch("ONIX", {
-    evolutions = {
-      { level = 40, method = "LEVEL", species = "STEELIX" },
-    },
-  })
-
-  -- Scyther -> Scizor (Nivel 40)
-  mod.content.pokemon:patch("SCYTHER", {
-    evolutions = {
-      { level = 40, method = "LEVEL", species = "SCIZOR" },
-    },
-  })
-
-  -- Seadra -> Kingdra (Nivel 45)
-  mod.content.pokemon:patch("SEADRA", {
-    evolutions = {
-      { level = 45, method = "LEVEL", species = "KINGDRA" },
-    },
-  })
-
-  -- Porygon -> Porygon2 (Nivel 30)
-  mod.content.pokemon:patch("PORYGON", {
-    evolutions = {
-      { level = 30, method = "LEVEL", species = "PORYGON2" },
-    },
-  })
-
-  -- Intercambios clásicos de Gen 1
-  local trade_evos = {
-    { base = "KADABRA",  target = "ALAKAZAM", level = 38 },
-    { base = "MACHOKE",  target = "MACHAMP",  level = 40 },
-    { base = "GRAVELER", target = "GOLEM",    level = 38 },
-    { base = "HAUNTER",  target = "GENGAR",   level = 38 },
+  -- Tabla de mapeo: Pokemon Base -> { Nivel Requerido, Especie Destino }
+  local custom_evolutions = {
+    POLIWHIRL = { level = 37, target = "POLITOED" },
+    SLOWPOKE  = { level = 37, target = "SLOWKING" },
+    ONIX      = { level = 40, target = "STEELIX" },
+    SCYTHER   = { level = 40, target = "SCIZOR" },
+    SEADRA    = { level = 45, target = "KINGDRA" },
+    PORYGON   = { level = 30, target = "PORYGON2" },
+    KADABRA   = { level = 38, target = "ALAKAZAM" },
+    MACHOKE   = { level = 40, target = "MACHAMP" },
+    GRAVELER  = { level = 38, target = "GOLEM" },
+    HAUNTER   = { level = 38, target = "GENGAR" },
   }
 
-  for _, evo in ipairs(trade_evos) do
-    mod.content.pokemon:patch(evo.base, {
-      evolutions = {
-        { level = evo.level, method = "LEVEL", species = evo.target },
-      },
-    })
+  -- 1. Intentar el patch estatico
+  for base, data in pairs(custom_evolutions) do
+    if mod.content and mod.content.pokemon then
+      mod.content.pokemon:patch(base, {
+        evolutions = {
+          { method = "LEVEL", level = data.level, species = data.target, target = data.target }
+        }
+      })
+    end
+  end
+
+  -- 2. Hook en tiempo de ejecucion al subir de nivel
+  if mod.hooks and mod.hooks.on_level_up then
+    mod.hooks:on_level_up(function(pokemon)
+      local evo = custom_evolutions[pokemon.species]
+      if evo and pokemon.level >= evo.level then
+        pokemon:trigger_evolution(evo.target)
+      end
+    end)
   end
 end
