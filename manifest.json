@@ -1,7 +1,7 @@
 {
   "id": "evolutionar_stones_instead_object_trade",
   "name": "Use Evolutionary stones instead of trading with equiped objects",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "entry": "main.lua",
   "api": 2,
   "priority": 99,

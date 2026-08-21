@@ -1,47 +1,64 @@
 return function(mod)
-  mod.log:info(">>> MOD ACTIVADO: Evoluciones con Moon Stone cargando...")
+  mod.log:info("Cargando modulo: Evoluciones por Nivel (Gen 2)")
 
-  -- POLIWHIRL
+  -- Poliwhirl -> Politoed al subir al nivel 37 (o usar Caramelo Raro)
+  -- Conserva Water Stone nativa para Poliwrath
   mod.content.pokemon:patch("POLIWHIRL", {
     evolutions = {
-      { method = "ITEM", item = "WATER_STONE", species = "POLIWRATH" },
-      { method = "ITEM", item = "MOON_STONE",  species = "POLITOED" }
-    }
+      { item = "WATER_STONE", method = "ITEM",  species = "POLIWRATH" },
+      { level = 37,           method = "LEVEL", species = "POLITOED" },
+    },
   })
 
-  -- SLOWPOKE
+  -- Slowpoke -> Slowbro (37 original) y Slowking (38)
   mod.content.pokemon:patch("SLOWPOKE", {
     evolutions = {
-      { method = "LEVEL", level = 37,          species = "SLOWBRO" },
-      { method = "ITEM",  item = "MOON_STONE", species = "SLOWKING" }
-    }
+      { level = 37, method = "LEVEL", species = "SLOWBRO" },
+      { level = 38, method = "LEVEL", species = "SLOWKING" },
+    },
   })
 
-  -- ONIX
+  -- Onix -> Steelix (Nivel 40)
   mod.content.pokemon:patch("ONIX", {
     evolutions = {
-      { method = "ITEM", item = "MOON_STONE", species = "STEELIX" }
-    }
+      { level = 40, method = "LEVEL", species = "STEELIX" },
+    },
   })
 
-  -- SCYTHER
+  -- Scyther -> Scizor (Nivel 40)
   mod.content.pokemon:patch("SCYTHER", {
     evolutions = {
-      { method = "ITEM", item = "MOON_STONE", species = "SCIZOR" }
-    }
+      { level = 40, method = "LEVEL", species = "SCIZOR" },
+    },
   })
 
-  -- SEADRA
+  -- Seadra -> Kingdra (Nivel 45)
   mod.content.pokemon:patch("SEADRA", {
     evolutions = {
-      { method = "ITEM", item = "MOON_STONE", species = "KINGDRA" }
-    }
+      { level = 45, method = "LEVEL", species = "KINGDRA" },
+    },
   })
 
-  -- PORYGON
+  -- Porygon -> Porygon2 (Nivel 30)
   mod.content.pokemon:patch("PORYGON", {
     evolutions = {
-      { method = "ITEM", item = "MOON_STONE", species = "PORYGON2" }
-    }
+      { level = 30, method = "LEVEL", species = "PORYGON2" },
+    },
   })
+
+  -- Intercambios clásicos de Gen 1
+  local trade_evos = {
+    { base = "KADABRA",  target = "ALAKAZAM", level = 38 },
+    { base = "MACHOKE",  target = "MACHAMP",  level = 40 },
+    { base = "GRAVELER", target = "GOLEM",    level = 38 },
+    { base = "HAUNTER",  target = "GENGAR",   level = 38 },
+  }
+
+  for _, evo in ipairs(trade_evos) do
+    mod.content.pokemon:patch(evo.base, {
+      evolutions = {
+        { level = evo.level, method = "LEVEL", species = evo.target },
+      },
+    })
+  end
 end
