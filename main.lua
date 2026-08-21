@@ -1,36 +1,31 @@
 return function(mod)
   mod.log:info("Cargando modulo: Evoluciones por Objeto Directo (Gen 2)")
 
-  -- 1. Onix -> Steelix (Uso directo de Metal Coat)
-  mod.content.pokemon:patch("ONIX", {
+  -- 1. HABILITAR EL COMANDO 'USE' EN OBJETOS QUE ORIGINALMENTE ERAN SOLO EQUIPABLES
+  local evolution_items = {
+    "KINGS_ROCK",
+    "METAL_COAT",
+    "DRAGON_SCALE",
+    "UP_GRADE",
+  }
+
+  for _, item_name in ipairs(evolution_items) do
+    mod.content.items:patch(item_name, {
+      can_use_on_pokemon = true,
+    })
+  end
+
+  -- 2. EVOLUCIONES POR OBJETO DIRECTO
+
+  -- Poliwhirl -> Poliwrath (Piedra Agua) o Politoed (Roca del Rey)
+  mod.content.pokemon:patch("POLIWHIRL", {
     evolutions = {
-      { item = "METAL_COAT", method = "ITEM", species = "STEELIX" },
+      { item = "WATER_STONE", method = "ITEM", species = "POLIWRATH" },
+      { item = "KINGS_ROCK",  method = "ITEM", species = "POLITOED" },
     },
   })
 
-  -- 2. Scyther -> Scizor (Uso directo de Metal Coat)
-  mod.content.pokemon:patch("SCYTHER", {
-    evolutions = {
-      { item = "METAL_COAT", method = "ITEM", species = "SCIZOR" },
-    },
-  })
-
-  -- 3. Seadra -> Kingdra (Uso directo de Dragon Scale)
-  mod.content.pokemon:patch("SEADRA", {
-    evolutions = {
-      { item = "DRAGON_SCALE", method = "ITEM", species = "KINGDRA" },
-    },
-  })
-
-  -- 4. Porygon -> Porygon2 (Uso directo de Up-Grade)
-  mod.content.pokemon:patch("PORYGON", {
-    evolutions = {
-      { item = "UP_GRADE", method = "ITEM", species = "PORYGON2" },
-    },
-  })
-
-  -- 5. Slowpoke -> Slowbro (Nivel 37) o Slowking (Uso directo de King's Rock)
-  -- Nota: Se mantiene el método de nivel para no anular a Slowbro
+  -- Slowpoke -> Slowbro (Nivel 37) o Slowking (Roca del Rey)
   mod.content.pokemon:patch("SLOWPOKE", {
     evolutions = {
       { level = 37, method = "LEVEL", species = "SLOWBRO" },
@@ -38,12 +33,31 @@ return function(mod)
     },
   })
 
-  -- 6. Poliwhirl -> Poliwrath (Water Stone) o Politoed (Uso directo de King's Rock)
-  -- Nota: Se mantiene la Water Stone original para no anular a Poliwrath
-  mod.content.pokemon:patch("POLIWHIRL", {
+  -- Onix -> Steelix (Revestimiento Metálico)
+  mod.content.pokemon:patch("ONIX", {
     evolutions = {
-      { item = "WATER_STONE", method = "ITEM", species = "POLIWRATH" },
-      { item = "KINGS_ROCK", method = "ITEM", species = "POLITOED" },
+      { item = "METAL_COAT", method = "ITEM", species = "STEELIX" },
+    },
+  })
+
+  -- Scyther -> Scizor (Revestimiento Metálico)
+  mod.content.pokemon:patch("SCYTHER", {
+    evolutions = {
+      { item = "METAL_COAT", method = "ITEM", species = "SCIZOR" },
+    },
+  })
+
+  -- Seadra -> Kingdra (Escama Dragón)
+  mod.content.pokemon:patch("SEADRA", {
+    evolutions = {
+      { item = "DRAGON_SCALE", method = "ITEM", species = "KINGDRA" },
+    },
+  })
+
+  -- Porygon -> Porygon2 (Mejora / Up-Grade)
+  mod.content.pokemon:patch("PORYGON", {
+    evolutions = {
+      { item = "UP_GRADE", method = "ITEM", species = "PORYGON2" },
     },
   })
 end
