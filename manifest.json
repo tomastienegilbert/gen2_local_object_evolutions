@@ -1,13 +1,12 @@
 {
-"id": "evolutionar_stones_instead_object_trade",
-"name": "Use Evolutionary stones instead of trading with equiped objects",
-"version": "1.0.6",
-"entry": "main.lua",
-"api": 2,
-"priority": 99,
-"category": "GAMEPLAY",
-"game_version": ">=0.1.65",
-"description": "Make possible Special Object with Trade evolutions only evolutionary stones). No Trade Needed. Available for getting Kingdra with Water Stone, Scissor with Moon Stone, Politoed with Moon Stone; Slowking with Moon Stone, Steelix  with Moon Stone and Porygon2 with Moon Stone",
-"github": "tomastienegilbert/gen2_local_object_evolutions",
-"profile": "content"
+  "id": "evolutionar_stones_instead_object_trade",
+  "name": "Use Evolutionary stones instead of trading with equiped objects",
+  "version": "1.0.7",
+  "entry": "main.lua",
+  "api": 2,
+  "priority": 99,
+  "category": "GAMEPLAY",
+  "game_version": ">=0.1.65",
+  "description": "Special trade evolutions triggered via evolutionary stones.",
+  "github": "tomastienegilbert/gen2_local_object_evolutions"
 }
