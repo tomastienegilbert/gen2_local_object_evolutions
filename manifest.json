@@ -1,0 +1,13 @@
+{
+"id": "local_object_evolutions",
+"name": "No trade special object evolutions",
+"version": "1.0.0",
+"entry": "main.lua",
+"api": 2,
+"priority": 99,
+"category": "GAMEPLAY",
+"game_version": ">=0.1.65",
+"description": "Make possible Special Object with Trade evolutions only using the special object in Pokémon (like a evolutionary stone). No Trade Needed. Available for getting Kingdra, Scissor, Politoed; Slowking, Steelix and Porygon2",
+"github": "tomastienegilbert/gen2_local_object_evolutions",
+"profile": "content"
+}
