@@ -1,63 +1,63 @@
 return function(mod)
-  mod.log:info("Cargando modulo: Evoluciones por Objeto Directo (Gen 2)")
+  mod.log:info("Cargando modulo: Evoluciones con Moon Stone (Gen 2)")
 
-  -- 1. HABILITAR EL COMANDO 'USE' EN OBJETOS QUE ORIGINALMENTE ERAN SOLO EQUIPABLES
-  local evolution_items = {
-    "KINGS_ROCK",
-    "METAL_COAT",
-    "DRAGON_SCALE",
-    "UP_GRADE",
-  }
-
-  for _, item_name in ipairs(evolution_items) do
-    mod.content.items:patch(item_name, {
-      can_use_on_pokemon = true,
-    })
-  end
-
-  -- 2. EVOLUCIONES POR OBJETO DIRECTO
-
-  -- Poliwhirl -> Poliwrath (Piedra Agua) o Politoed (Roca del Rey)
+  -- 1. POLIWHIRL (Mantiene Water Stone para Poliwrath y Moon Stone para Politoed)
   mod.content.pokemon:patch("POLIWHIRL", {
     evolutions = {
       { item = "WATER_STONE", method = "ITEM", species = "POLIWRATH" },
-      { item = "KINGS_ROCK",  method = "ITEM", species = "POLITOED" },
+      { item = "MOON_STONE",  method = "ITEM", species = "POLITOED" },
     },
   })
 
-  -- Slowpoke -> Slowbro (Nivel 37) o Slowking (Roca del Rey)
+  -- 2. SLOWPOKE (Mantiene Nivel 37 para Slowbro y Moon Stone para Slowking)
   mod.content.pokemon:patch("SLOWPOKE", {
     evolutions = {
-      { level = 37, method = "LEVEL", species = "SLOWBRO" },
-      { item = "KINGS_ROCK", method = "ITEM", species = "SLOWKING" },
+      { level = 37,          method = "LEVEL", species = "SLOWBRO" },
+      { item = "MOON_STONE", method = "ITEM",  species = "SLOWKING" },
     },
   })
 
-  -- Onix -> Steelix (Revestimiento Metálico)
+  -- 3. ONIX -> STEELIX
   mod.content.pokemon:patch("ONIX", {
     evolutions = {
-      { item = "METAL_COAT", method = "ITEM", species = "STEELIX" },
+      { item = "MOON_STONE", method = "ITEM", species = "STEELIX" },
     },
   })
 
-  -- Scyther -> Scizor (Revestimiento Metálico)
+  -- 4. SCYTHER -> SCIZOR
   mod.content.pokemon:patch("SCYTHER", {
     evolutions = {
-      { item = "METAL_COAT", method = "ITEM", species = "SCIZOR" },
+      { item = "MOON_STONE", method = "ITEM", species = "SCIZOR" },
     },
   })
 
-  -- Seadra -> Kingdra (Escama Dragón)
+  -- 5. SEADRA -> KINGDRA
   mod.content.pokemon:patch("SEADRA", {
     evolutions = {
-      { item = "DRAGON_SCALE", method = "ITEM", species = "KINGDRA" },
+      { item = "MOON_STONE", method = "ITEM", species = "KINGDRA" },
     },
   })
 
-  -- Porygon -> Porygon2 (Mejora / Up-Grade)
+  -- 6. PORYGON -> PORYGON2
   mod.content.pokemon:patch("PORYGON", {
     evolutions = {
-      { item = "UP_GRADE", method = "ITEM", species = "PORYGON2" },
+      { item = "MOON_STONE", method = "ITEM", species = "PORYGON2" },
     },
   })
+
+  -- 7. INTERCAMBIOS CLÁSICOS DE GEN 1 (Opcional: también con Moon Stone)
+  local gen1_trades = {
+    { base = "KADABRA",  target = "ALAKAZAM" },
+    { base = "MACHOKE",  target = "MACHAMP"  },
+    { base = "GRAVELER", target = "GOLEM"    },
+    { base = "HAUNTER",  target = "GENGAR"   },
+  }
+
+  for _, evo in ipairs(gen1_trades) do
+    mod.content.pokemon:patch(evo.base, {
+      evolutions = {
+        { item = "MOON_STONE", method = "ITEM", species = evo.target },
+      },
+    })
+  end
 end
